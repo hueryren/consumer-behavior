@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>消費者行為課程平台｜Consumer Behavior</title>
+  <style>
+    /* CSS 變數設計：延續極簡典雅藍白風格 */
+    :root {
+      --primary: #17345f;
+      --primary-light: #295a94;
+      --accent: #2b6cb0;
+      --bg-main: #f8fafc;
+      --bg-alt: #ffffff;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --shadow-sm: 0 2px 8px rgba(23, 52, 95, 0.04);
+      --shadow-md: 0 6px 20px rgba(23, 52, 95, 0.08);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.65;
+      scroll-behavior: smooth;
+    }
+
+    /* 置中容器 */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* 頂部導覽列 */
+    .site-header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 64px;
+    }
+    .brand {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand small {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      border-left: 1px solid var(--border-color);
+      padding-left: 10px;
+    }
+    .nav-links a {
+      margin-left: 20px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* 主視覺 Hero 區塊 */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 80px 0 70px;
+      text-align: center;
+    }
+    .eyebrow {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #93c5fd;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      margin: 0 0 16px;
+      letter-spacing: -0.5px;
+    }
+    .hero p.lead {
+      max-width: 760px;
+      margin: 0 auto 32px;
+      font-size: 1.15rem;
+      color: #e2e8f0;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: white;
+      color: var(--primary);
+      font-weight: 700;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      backdrop-filter: blur(4px);
+    }
+
+    /* 一般區塊樣式 */
+    .section { padding: 70px 0; }
+    .section.alt { background: var(--bg-alt); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+    .section-title {
+      font-size: 2rem;
+      color: var(--primary);
+      margin: 0 0 10px;
+      font-weight: 800;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      font-size: 1.05rem;
+    }
+
+    /* 卡片與網格 */
+    .grid { display: grid; gap: 20px; }
+    .cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+
+    .tag {
+      display: inline-block;
+      background: #edf4fb;
+      color: var(--accent);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    /* 學習模組 Module 區塊 */
+    .module-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+      border-left: 6px solid var(--accent);
+    }
+    .module-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .module-num {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 1.5px;
+    }
+    .module-title { font-size: 1.35rem; color: var(--primary); margin: 4px 0 0; }
+    .chapter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .chip {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+    .chip small { display: block; color: var(--text-muted); font-size: 0.75rem; font-weight: normal; }
+
+    /* AI 流程圖 */
+    .flow {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      flex: 1;
+      min-width: 140px;
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .flow-step b { display: block; color: var(--accent); font-size: 0.85rem; }
+
+    /* 頁尾 */
+    footer {
+      background: var(--primary);
+      color: #94a3b8;
+      text-align: center;
+      padding: 32px 0;
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    footer strong { color: white; }
+
+    /* 響應式微調 */
+    @media(max-width: 900px) {
+      .cols-3, .cols-2 { grid-template-columns: 1fr; }
+      .flow { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部導覽列 -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#">
+        FINANCIAL MANAGEMENT
+        <small>金融管理學系｜消費者行為</small>
+      </a>
+      <nav class="nav-links">
+        <a href="#intro">課程介紹</a>
+        <a href="#modules">5大模組</a>
+        <a href="#ai">AI協作</a>
+        <a href="#midterm">期中觀察</a>
+        <a href="#final">期末專題</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero 標頭區塊 -->
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow">CONSUMER BEHAVIOR COURSE PLATFORM</div>
+        <h1>消費者行為 <br><span style="font-size: 2rem; font-weight: 400; opacity: 0.9;">Consumer Behavior</span></h1>
+        <p class="lead">從消費者差異、決策流程、心理解析到數位消費與 AI 應用，以「概念 × 案例 × 觀察 × AI 查核」建立完整學習路徑。</p>
+        <div class="hero-actions">
+          <a class="btn" href="#modules">開始學習 ↓</a>
+          <a class="btn secondary" href="#ai">AI 協作機制</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. 課程定位與學習管道 -->
+    <section id="intro" class="section">
+      <div class="container">
+        <div class="eyebrow">LEARNING APPROACH</div>
+        <h2 class="section-title">三大核心學習管道</h2>
+        <p class="section-subtitle">我們強調理論與實踐相結合，培養跨領域洞察力與批判性思考。</p>
+        
+        <div class="grid cols-3">
+          <div class="card">
+            <span class="tag">01 核心理論</span>
+            <h3>概念圖解</h3>
+            <p>每章皆包含明確學習目標、核心理論與系統化圖解整理，為學生建立清晰的消費者行為學基礎架構。</p>
+          </div>
+          <div class="card">
+            <span class="tag">02 市場應用</span>
+            <h3>案例與真實觀察</h3>
+            <p>緊密連結品牌、零售、金融服務與日常生活案例，讓理論不再抽象，能直接對應真實的商業與消費情境。</p>
+          </div>
+          <div class="card">
+            <span class="tag">03 人機協作</span>
+            <h3>AI 實作與查核</h3>
+            <p>引導學生採用「AI 先回答 ➔ 學生批判判斷 ➔ 實證修正／查核」模式，避免被動複製，培養批判性思考力。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 5大學習模組（整合 20 章教材） -->
+    <section id="modules" class="section alt">
+      <div class="container">
+        <div class="eyebrow">5-MODULE LEARNING JOURNEY</div>
+        <h2 class="section-title">五大學習模組地圖</h2>
+        <p class="section-subtitle">將 20 章精華教材整合為循序漸進的 5 大系統化學習單元：</p>
+
+        <!-- Module 01 -->
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-num">MODULE 01</span>
+          </div>
+          <h3 class="module-title">基礎與決策流程 (Foundation & Decision Process)</h3>
+          <p style="color: var(--text-muted); margin-top: 6px;">建立消費者行為學的全局觀，深入剖析消費者從動機引發到購後評估的完整決策旅程。</p>
+          <div class="chapter-tags">
+            <div class="chip"><b>第1章</b> 消費者行為導論 <small>基本概念、角色與應用</small></div>
+            <div class="chip"><b>第2章</b> 消費者決策流程 <small>認知、搜尋、評估、購買與購後</small></div>
+            <div class="chip"><b>第3章</b> 消費者差異與市場區隔 <small>差異、分群、Persona 與目標市場</small></div>
+            <div class="chip"><b>第4章</b> 消費者研究方法 <small>質化、量化、抽樣與市場洞察</small></div>
+          </div>
+        </div>
+
+        <!-- Module 02 -->
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-num">MODULE 02</span>
+          </div>
+          <h3 class="module-title">個體心理與知覺 (Individual Psychology & Perception)</h3>
+          <p style="color: var(--text-muted); margin-top: 6px;">進入消費者的內心世界，探討感官知覺、記憶形成、動機心理與態度說服機制。</p>
+          <div class="chapter-tags">
+            <div class="chip"><b>第5章</b> 知覺與感官行銷 <small>視覺、聲音、氣味、觸覺</small></div>
+            <div class="chip"><b>第6章</b> 學習與記憶 <small>制約、認知學習與品牌記憶</small></div>
+            <div class="chip"><b>第7章</b> 動機、價值與涉入 <small>需求、價值與購買涉入</small></div>
+            <div class="chip"><b>第8章</b> 人格、自我概念與生活型態 <small>人格、自我與生活型態</small></div>
+            <div class="chip"><b>第9章</b> 態度形成與改變 <small>態度、說服與改變</small></div>
+            <div class="chip"><b>第10章</b> 情緒與消費體驗 <small>情緒、體驗與滿意</small></div>
+          </div>
+        </div>
+
+        <!-- Module 03 -->
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-num">MODULE 03</span>
+          </div>
+          <h3 class="module-title">社會與文化影響 (Social & Cultural Dynamics)</h3>
+          <p style="color: var(--text-muted); margin-top: 6px;">解構外部環境因素，分析文化價值、次文化族群、社會階層與社群口碑如何塑造行為。</p>
+          <div class="chapter-tags">
+            <div class="chip"><b>第11章</b> 文化因素 <small>文化價值與消費規範</small></div>
+            <div class="chip"><b>第12章</b> 次文化與世代 <small>世代、族群與次文化</small></div>
+            <div class="chip"><b>第13章</b> 社會階層與家庭 <small>家庭決策與社會階層</small></div>
+            <div class="chip"><b>第14章</b> 參考群體與意見領袖 <small>口碑、KOL 與社會影響</small></div>
+          </div>
+        </div>
+
+        <!-- Module 04 -->
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-num">MODULE 04</span>
+          </div>
+          <h3 class="module-title">數位時代與體驗管理 (Digital Era & Experience)</h3>
+          <p style="color: var(--text-muted); margin-top: 6px;">聚焦數位環境下的消費者旅程，探討社群媒體接觸點、顧客體驗設計與 CRM 忠誠度建立。</p>
+          <div class="chapter-tags">
+            <div class="chip"><b>第15章</b> 數位消費者與社群媒體 <small>數位旅程、社群與平台</small></div>
+            <div class="chip"><b>第16章</b> 品牌、服務與顧客體驗 <small>品牌認知與服務接觸</small></div>
+            <div class="chip"><b>第17章</b> 滿意、忠誠與 CRM <small>滿意、留存、忠誠</small></div>
+          </div>
+        </div>
+
+        <!-- Module 05 -->
+        <div class="module-card">
+          <div class="module-header">
+            <span class="module-num">MODULE 05</span>
+          </div>
+          <h3 class="module-title">未來趨勢與永續 (Future Trends & Sustainability)</h3>
+          <p style="color: var(--text-muted); margin-top: 6px;">前瞻未來消費情境，涵蓋永續責任消費、AI 人工智慧應用與綜合個案實戰。</p>
+          <div class="chapter-tags">
+            <div class="chip"><b>第18章</b> 福祉、倫理與永續 <small>責任消費、倫理與永續</small></div>
+            <div class="chip"><b>第19章</b> AI、大數據與未來消費者 <small>推薦、個人化與隱私</small></div>
+            <div class="chip"><b>第20章</b> 綜合個案與期末專題 <small>整合分析與成果發表</small></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. AI 活動設計 -->
+    <section id="ai" class="section">
+      <div class="container">
+        <div class="eyebrow">AI COLLABORATION</div>
+        <h2 class="section-title">AI 學習活動設計機制</h2>
+        <p class="section-subtitle">從第 5 章開始，每章固定安排 2～3 個 AI 課堂實作活動，引導學生善用生成式 AI。</p>
+        
+        <div class="flow">
+          <div class="flow-step">
+            <b>01. GENERATE</b>
+            <strong>AI 初始回答</strong>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">使用指令讓 AI 初步生成解決方案或情境分析。</p>
+          </div>
+          <div class="flow-step">
+            <b>02. JUDGE</b>
+            <strong>學生專業判斷</strong>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">對照課堂理論，評估 AI 回答的合理性與漏洞。</p>
+          </div>
+          <div class="flow-step">
+            <b>03. VERIFY</b>
+            <strong>市場實證查核</strong>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">蒐集真實市場數據或品牌案例修正內容。</p>
+          </div>
+          <div class="flow-step">
+            <b>04. REFLECT</b>
+            <strong>個人反思總結</strong>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;">撰寫簡短反思心得，將知識內化為自己的洞察。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 期中與期末作業專區 -->
+    <section id="midterm" class="section alt">
+      <div class="container">
+        <div class="grid cols-2">
+          <!-- 期中作業 -->
+          <div class="card">
+            <span class="tag">MIDTERM PROJECT</span>
+            <h3 style="color:var(--primary); font-size: 1.4rem; margin-top:0;">期中作業｜店鋪賣場實地觀察</h3>
+            <p>小組選定一家實體店鋪、零售賣場或金融分行，實地觀察店面環境設計、顧客動線與消費行為。</p>
+            <hr style="border:0; border-top:1px solid var(--border-color); margin:16px 0;">
+            <ul style="padding-left:20px; font-size:0.95rem; color:var(--text-main);">
+              <li><strong>店鋪基本資料</strong>：品牌定位、地理位置與目標客群。</li>
+              <li><strong>門口與賣場照片</strong>：記錄門面設計、陳列與視覺焦點。</li>
+              <li><strong>消費者行為記錄</strong>：實地觀察並記錄 3～5 位顧客的動線與行為。</li>
+              <li><strong>人流統計分析</strong>：對比 2 個不同時段的人流變化與特徵。</li>
+              <li><strong>建議與改善方案</strong>：基於知覺與動線理論提出優化建議。</li>
+            </ul>
+          </div>
+
+          <!-- 期末專題 -->
+          <div id="final" class="card">
+            <span class="tag">FINAL PROJECT</span>
+            <h3 style="color:var(--primary); font-size: 1.4rem; margin-top:0;">期末專題｜品牌整合消費者行為分析</h3>
+            <p>結合本學期所學之 5 大模組理論，針對指定品牌或服務進行深度消費者行為分析與策略規劃。</p>
+            <hr style="border:0; border-top:1px solid var(--border-color); margin:16px 0;">
+            <ul style="padding-left:20px; font-size:0.95rem; color:var(--text-main);">
+              <li><strong>品牌與服務選題</strong>：涵蓋零售店、金融服務、數位平台或新創品牌。</li>
+              <li><strong>深度消費者分析</strong>：整合 Persona、決策流程、知覺與態度進行分析。</li>
+              <li><strong>AI 輔助市場驗證</strong>：結合 AI 工具進行聲量觀察與顧客體驗缺口分析。</li>
+              <li><strong>落地改善提案</strong>：提出具體、可行且具備商業價值的創新改善方案。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 頁尾 -->
+  <footer>
+    <div class="container">
+      <strong>金融管理學系｜消費者行為課程平台 (Consumer Behavior)</strong><br>
+      <small style="opacity: 0.8;">設計規範參考 GitHub Pages 極簡風格｜結合生成式 AI 協作教學模式</small>
+    </div>
+  </footer>
+
+</body>
+</html>
